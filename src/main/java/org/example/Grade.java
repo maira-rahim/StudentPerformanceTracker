@@ -1,22 +1,41 @@
+package org.example;
+
 public class Grade {
 
+    private int studentId;
     private double marks;
+    private String grade;
 
-    public Grade(double marks){
-        this.marks=marks;
+    public Grade() {
     }
 
-    public double calculateGPA(){
+    public Grade(int studentId, double marks, String grade) {
+        this.studentId = studentId;
+        this.marks = marks;
+        this.grade = grade;
+    }
 
-        if(marks>=85)
-            return 4.0;
+    public int getStudentId() {
+        return studentId;
+    }
 
-        else if(marks>=75)
-            return 3.5;
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
 
-        else if(marks>=65)
-            return 3.0;
+    public double getMarks() {
+        return marks;
+    }
 
-        return 2.0;
+    public void setMarks(double marks) {
+        this.marks = marks;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 }

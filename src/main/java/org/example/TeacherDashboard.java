@@ -1,42 +1,81 @@
+package org.example;
+
 import javax.swing.*;
 
 public class TeacherDashboard extends JFrame {
 
     public TeacherDashboard() {
 
-        JButton add = new JButton("Add Student");
-        JButton view = new JButton("View Students");
+        setTitle("Teacher Dashboard");
 
-        add.setBounds(50,50,150,30);
-        view.setBounds(50,100,150,30);
+        JButton addBtn = new JButton("Add Student");
+        JButton viewBtn = new JButton("View Students");
 
-        add(add);
-        add(view);
+        addBtn.setBounds(50, 50, 150, 30);
+        viewBtn.setBounds(50, 100, 150, 30);
 
-        setSize(300,300);
+        add(addBtn);
+        add(viewBtn);
+
+        setSize(300, 250);
         setLayout(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
-        add.addActionListener(e -> {
-            String name = JOptionPane.showInputDialog("Name:");
-            String course = JOptionPane.showInputDialog("Course:");
-            double marks = Double.parseDouble(JOptionPane.showInputDialog("Marks:"));
+        addBtn.addActionListener(e -> {
 
-            StudentDAO dao = new StudentDAO();
-            dao.addStudent(new Student(0,name,course,marks));
+            try {
+
+                String name = JOptionPane.showInputDialog("Enter Student Name:");
+
+                String course = JOptionPane.showInputDialog("Enter Course:");
+
+                double marks = Double.parseDouble(
+                        JOptionPane.showInputDialog("Enter Marks:")
+                );
+
+                Student student =
+                        new Student(0, name, course, marks);
+
+                StudentDAO dao = new StudentDAO();
+
+                dao.addStudent(student);
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Student Added Successfully!"
+                );
+
+            } catch (Exception ex) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Invalid Input!"
+                );
+            }
         });
 
-        view.addActionListener(e -> {
+        viewBtn.addActionListener(e -> {
+
             StudentDAO dao = new StudentDAO();
+
             StringBuilder sb = new StringBuilder();
 
-            for(Student s : dao.getAllStudents()) {
-                sb.append(s.getId())
-                        .append(" ")
+            for (Student s : dao.getAllStudents()) {
+
+                sb.append("ID: ")
+                        .append(s.getId())
+                        .append(" | Name: ")
                         .append(s.getName())
-                        .append(" ")
+                        .append(" | Course: ")
+                        .append(s.getCourse())
+                        .append(" | Marks: ")
                         .append(s.getMarks())
                         .append("\n");
+            }
+
+            if (sb.length() == 0) {
+                sb.append("No Students Found!");
             }
 
             JOptionPane.showMessageDialog(this, sb.toString());

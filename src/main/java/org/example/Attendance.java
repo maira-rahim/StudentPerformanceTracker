@@ -1,10 +1,40 @@
-public class Attendance {
+package org.example;
 
+public class Attendance {
+    private int studentId;
     private int totalClasses;
     private int attendedClasses;
 
-    public double getPercentage(){
+    public Attendance() {
+    }
 
-        return (double) attendedClasses / totalClasses * 100;
+    public Attendance(int studentId, int totalClasses, int attendedClasses) {
+        this.studentId = studentId;
+        this.totalClasses = totalClasses;
+        this.attendedClasses = attendedClasses;
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
+    public int getTotalClasses() {
+        return totalClasses;
+    }
+
+    public void setTotalClasses(int totalClasses) {
+        this.totalClasses = totalClasses;
+    }
+
+    public int getAttendedClasses() {
+        return attendedClasses;
+    }
+
+    public void setAttendedClasses(int attendedClasses) {
+        this.attendedClasses = attendedClasses;
     }
 }
