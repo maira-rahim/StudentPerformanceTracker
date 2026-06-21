@@ -2,30 +2,34 @@ import javax.swing.*;
 
 public class LoginFrame extends JFrame {
 
-    JTextField username;
-    JPasswordField password;
-    JButton loginBtn;
-
     public LoginFrame() {
 
-        setTitle("Student Academic Performance Tracker");
+        JTextField user = new JTextField();
+        JPasswordField pass = new JPasswordField();
+        JButton login = new JButton("Login");
 
-        username = new JTextField();
-        password = new JPasswordField();
-        loginBtn = new JButton("Login");
+        user.setBounds(50,50,150,30);
+        pass.setBounds(50,100,150,30);
+        login.setBounds(50,150,100,30);
 
+        add(user);
+        add(pass);
+        add(login);
+
+        setSize(300,300);
         setLayout(null);
-
-        username.setBounds(100,50,200,30);
-        password.setBounds(100,100,200,30);
-        loginBtn.setBounds(150,150,100,30);
-
-        add(username);
-        add(password);
-        add(loginBtn);
-
-        setSize(400,300);
         setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        login.addActionListener(e -> {
+            if(user.getText().equals("admin") &&
+                    String.valueOf(pass.getPassword()).equals("123")) {
+
+                JOptionPane.showMessageDialog(this, "Login Success");
+                new TeacherDashboard();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid Login");
+            }
+        });
     }
 }
