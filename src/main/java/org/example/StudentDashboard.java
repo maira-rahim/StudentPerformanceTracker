@@ -8,15 +8,35 @@ public class StudentDashboard extends JFrame {
 
         setTitle("Student Dashboard");
 
-        JLabel label = new JLabel("Welcome Student");
+        JTextArea area = new JTextArea();
+        JButton btn = new JButton("View Data");
 
-        label.setBounds(80, 50, 200, 30);
+        area.setBounds(20, 20, 250, 120);
+        btn.setBounds(80, 160, 120, 30);
 
-        add(label);
+        add(area);
+        add(btn);
 
+        setSize(320, 250);
         setLayout(null);
-        setSize(300, 200);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        btn.addActionListener(e -> {
+
+            StringBuilder sb = new StringBuilder();
+
+            for (Student s : new StudentDAO().getAllStudents()) {
+
+                double gpa = new GradeDAO().calculateGPA(s.getMarks());
+
+                sb.append("Name: ").append(s.getName())
+                        .append(" | Course: ").append(s.getCourse())
+                        .append(" | Marks: ").append(s.getMarks())
+                        .append(" | GPA: ").append(gpa)
+                        .append("\n");
+            }
+
+            area.setText(sb.toString());
+        });
     }
 }

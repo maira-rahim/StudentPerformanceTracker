@@ -8,77 +8,73 @@ public class TeacherDashboard extends JFrame {
 
         setTitle("Teacher Dashboard");
 
+        JLabel title = new JLabel("TEACHER PANEL");
+
         JButton addBtn = new JButton("Add Student");
         JButton viewBtn = new JButton("View Students");
+        JButton attBtn = new JButton("Add Attendance");
 
-        addBtn.setBounds(50, 50, 150, 30);
-        viewBtn.setBounds(50, 100, 150, 30);
+        title.setBounds(90, 20, 200, 30);
 
+        addBtn.setBounds(70, 70, 150, 35);
+        viewBtn.setBounds(70, 120, 150, 35);
+        attBtn.setBounds(70, 170, 150, 35);
+
+        add(title);
         add(addBtn);
         add(viewBtn);
+        add(attBtn);
 
-        setSize(300, 250);
+        setSize(320, 280);
         setLayout(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
         addBtn.addActionListener(e -> {
 
-            try {
+            String name = JOptionPane.showInputDialog("Name");
+            String course = JOptionPane.showInputDialog("Course");
+            double marks = Double.parseDouble(
+                    JOptionPane.showInputDialog("Marks")
+            );
 
-                String name = JOptionPane.showInputDialog("Enter Student Name:");
+            new StudentDAO().addStudent(new Student(0, name, course, marks));
 
-                String course = JOptionPane.showInputDialog("Enter Course:");
-
-                double marks = Double.parseDouble(
-                        JOptionPane.showInputDialog("Enter Marks:")
-                );
-
-                Student student =
-                        new Student(0, name, course, marks);
-
-                StudentDAO dao = new StudentDAO();
-
-                dao.addStudent(student);
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Student Added Successfully!"
-                );
-
-            } catch (Exception ex) {
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Invalid Input!"
-                );
-            }
         });
 
         viewBtn.addActionListener(e -> {
 
-            StudentDAO dao = new StudentDAO();
-
             StringBuilder sb = new StringBuilder();
 
-            for (Student s : dao.getAllStudents()) {
+            for (Student s : new StudentDAO().getAllStudents()) {
 
-                sb.append("ID: ")
-                        .append(s.getId())
-                        .append(" | Name: ")
+                double gpa = new GradeDAO().calculateGPA(s.getMarks());
+
+                sb.append(s.getId())
+                        .append(" | ")
                         .append(s.getName())
-                        .append(" | Course: ")
+                        .append(" | ")
                         .append(s.getCourse())
                         .append(" | Marks: ")
                         .append(s.getMarks())
+                        .append(" | GPA: ")
+                        .append(gpa)
                         .append("\n");
             }
 
-            if (sb.length() == 0) {
-                sb.append("No Students Found!");
-            }
-
             JOptionPane.showMessageDialog(this, sb.toString());
+        });
+
+        attBtn.addActionListener(e -> {
+
+            int id = Integer.parseInt(JOptionPane.showInputDialog("Student ID"));
+            int total = Integer.parseInt(JOptionPane.showInputDialog("Total Classes"));
+            int attended = Integer.parseInt(JOptionPane.showInputDialog("Attended"));
+
+            new AttendanceDAO().saveAttendance(
+                    new Attendance(id, total, attended)
+            );
+
+            JOptionPane.showMessageDialog(this, "Saved!");
         });
     }
 }
